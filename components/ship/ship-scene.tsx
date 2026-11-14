@@ -11,8 +11,8 @@ import { useHud } from "@/lib/store/hud";
 export function ShipScene() {
   return (
     <Canvas dpr={[1, 1.5]} camera={{ position: [16, 9, 16], fov: 40 }} gl={{ antialias: true }}>
-      <color attach="background" args={["#000000"]} />
-      <gridHelper args={[40, 40, "#661111", "#2a0000"]} />
+      <color attach="background" args={["#04101f"]} />
+      <gridHelper args={[40, 40, "#2b7fbf", "#0a2740"]} />
       {SHIP_ZONES.map((zone) => (
         <ZoneMesh key={zone.id} zone={zone} />
       ))}
@@ -63,15 +63,15 @@ function ZoneMesh({ zone }: { zone: ShipZone }) {
       >
         <meshStandardMaterial
           ref={material}
-          color={active ? "#ff1a1a" : "#1a0000"}
-          emissive={critical ? "#ff0033" : "#ff1a1a"}
+          color={active ? "#ff2d95" : "#072033"}
+          emissive={critical ? "#ff1473" : "#ff2d95"}
           transparent
           opacity={active ? 0.28 : 0.08}
           roughness={0.6}
         />
       </mesh>
       <lineSegments geometry={edges}>
-        <lineBasicMaterial color={active || critical ? "#ff1a1a" : "#661111"} />
+        <lineBasicMaterial color={active || critical ? "#ff2d95" : "#2b7fbf"} />
       </lineSegments>
     </group>
   );
@@ -87,7 +87,7 @@ function CrewMarkers() {
         return (
           <mesh key={member.id} position={[zone.position[0], zone.position[1] + 0.15, zone.position[2]]}>
             <sphereGeometry args={[0.12, 16, 16]} />
-            <meshBasicMaterial color="#ff1a1a" />
+            <meshBasicMaterial color="#ff2d95" />
           </mesh>
         );
       })}
