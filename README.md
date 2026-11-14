@@ -68,3 +68,42 @@ Set the environment to **STATION**. Leave the Gemini key empty if you want the p
 A second path, if you have time: RESET, send `left eye sudden blur and flashes`, then `chemical splash in the right eye` in a fresh thread. Blur is elevated and says not to rub. Chemical is critical and tells a trained crewmember to irrigate with manifested saline.
 
 Try `HR 110 RR 24 SpO2 91 pain 9` on the chest path if you want to show the card turn **CRITICAL**.
+
+## Orbital Medic HUD
+
+The same medic chat now sits on a red ship HUD. `M` opens the menu. `1` chat, `2` dashboard, `3` map, `4` alerts, `P` present mode. The 3D blueprint is procedural, so no model file is required.
+
+Supabase is optional. Without `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`, the app runs a local vitals simulator and shows **LINK DEGRADED**. Schema and seed:
+
+```bash
+# In the Supabase SQL editor, run:
+# supabase/migrations/0001_init.sql
+# supabase/seed.sql
+```
+
+Regenerate database types after the migration, from a logged-in Supabase CLI:
+
+```bash
+npx supabase gen types typescript --project-id YOUR_PROJECT_ID > lib/supabase/database.types.ts
+```
+
+### Two-minute demo
+
+1. Open the app, acknowledge the limit notice, and press `2` for the dashboard. Crew vitals are moving.
+2. Open the menu with `M` and choose **SETTINGS**. Select a crewmate and press **SIMULATE CHEST PAIN**. Heart rate climbs and SpO2 dips. A critical alert can toast **OPEN ASSISTANT**.
+3. Go to chat and send `sudden chest pain, sweaty, short of breath`. The card is still the flight-medic checklist, now marked **SOURCE GEMINI** when the key works.
+4. Send `I'm in the gym`. The gym module turns red and the camera flies to it.
+5. Press **CONTACT GROUND**. The alert is stored in the browser, and in Supabase when that link exists.
+
+```mermaid
+flowchart LR
+  crew[Crew chat] --> api[POST /api/chat]
+  api --> rules[Offline protocol]
+  api --> gemini[Gemini]
+  rules --> card[Advice card]
+  gemini --> card
+  crew --> zones[Zone match]
+  zones --> map[3D ship]
+  sim[Vitals simulator] --> dash[Dashboard]
+  sim --> alerts[Alerts]
+```

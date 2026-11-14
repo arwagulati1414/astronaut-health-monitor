@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
+const jetbrains = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
+const orbitron = Orbitron({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Astronaut Health Monitor",
+  title: "Orbital Medic",
   description:
-    "Chat-first flight-medic decision support for crew emergencies. Not a diagnosis and not an official NASA protocol.",
+    "Crew health decision support for a ship with no onboard physician. Not a diagnosis and not an official NASA protocol.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${jetbrains.variable} ${orbitron.variable} h-full antialiased`}>
       <body className="h-full overflow-hidden">{children}</body>
     </html>
   );

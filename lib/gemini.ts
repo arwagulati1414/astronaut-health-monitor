@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { protocolContext, SYSTEM_PROMPT } from "./ai/systemPrompt";
 import { reconcileAdvice } from "./reconcile";
 import type { MedicReply, MedicRequest } from "./types";
 
@@ -33,6 +34,7 @@ function promptFor(request: MedicRequest, offline: MedicReply): string {
   const transcript = request.history
     .map((turn) => `${turn.role.toUpperCase()}: ${turn.content}`)
     .join("\n");
+  const latestUser = [...request.history].reverse().find((turn) => turn.role === "user")?.content ?? "";
 
   const prompt = `You are a flight-medic decision-support assistant for a spacecraft crew demo.
 Write educational first-aid guidance. You are not a physician on this loop, you do not diagnose, you do not prescribe, and you do not claim to be an official NASA protocol.
@@ -48,7 +50,12 @@ Transcript:
 ${transcript || "(no transcript)"}
 
 Safety draft you must not undercut:
-${JSON.stringify(offline)}`;
+${JSON.stringify(offline)}
+
+${SYSTEM_PROMPT}
+
+Protocol context:
+${protocolContext(latestUser)}`;
   return prompt;
 }
 
