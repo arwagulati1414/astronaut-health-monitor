@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { NasaRisk } from "@/lib/nasa/hrr";
 import type { MedicReply, Urgency } from "@/lib/types";
 
 const URGENCY_LABEL: Record<Urgency, string> = {
@@ -9,10 +10,12 @@ const URGENCY_LABEL: Record<Urgency, string> = {
 
 export function AdviceCard({
   reply,
+  nasa,
   onQuickReply,
   disabled,
 }: {
   reply: MedicReply;
+  nasa?: NasaRisk[];
   onQuickReply: (text: string) => void;
   disabled?: boolean;
 }) {
@@ -82,6 +85,20 @@ export function AdviceCard({
       ) : (
         <p className="follow-up closed">Continue these steps. Call again if a red flag appears.</p>
       )}
+      {nasa?.length ? (
+        <Section title="NASA risk context">
+          <ul className="nasa-notes">
+            {nasa.map((risk) => (
+              <li key={risk.id}>
+                <a href={risk.url} target="_blank" rel="noreferrer">
+                  {risk.title}
+                </a>
+                <p>{risk.note}</p>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
       <footer>
         <span>{reply.source === "gemini" ? "SOURCE GEMINI" : "SOURCE OFFLINE RULES"}</span>
         <span>{reply.disclaimer}</span>

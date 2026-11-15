@@ -273,6 +273,27 @@ textarea:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 
+.nasa-notes,
+.nasa-sources ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nasa-notes a,
+.nasa-sources a {
+  color: var(--amber);
+}
+
+.nasa-notes p,
+.nasa-sources p {
+  margin-top: 4px;
+}
+
+.nasa-sources {
+  margin-top: 16px;
+}
+
 .advice-head {
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,6 @@
 "use client";
 
+import { NASA_RISKS, NASA_ROADMAP } from "@/lib/nasa/hrr";
 import { useHud, type DemoScenario } from "@/lib/store/hud";
 
 const SCENES: { id: DemoScenario; label: string }[] = [
@@ -60,6 +61,27 @@ export function SettingsView() {
         Keys: M menu, 1 chat, 2 dashboard, 3 map, 4 alerts, P present mode, Esc closes the menu.
         Supabase is optional. Without it, vitals stay in this browser and the link reads LINK DEGRADED.
       </p>
+      <div className="nasa-sources">
+        <p className="kicker">NASA HUMAN RESEARCH ROADMAP</p>
+        <p>
+          Heart signs and vision complaints are shown against these NASA risks. The first-aid steps are
+          still decision support, not a NASA protocol.
+        </p>
+        <ul>
+          <li>
+            <a href={NASA_ROADMAP.url} target="_blank" rel="noreferrer">
+              {NASA_ROADMAP.title}
+            </a>
+          </li>
+          {NASA_RISKS.map((risk) => (
+            <li key={risk.id}>
+              <a href={risk.url} target="_blank" rel="noreferrer">
+                {risk.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

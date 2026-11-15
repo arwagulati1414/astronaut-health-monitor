@@ -8,6 +8,7 @@ import type { EyeScreen } from "@/lib/eye-screen/model";
 import { adviseOffline } from "@/lib/offline-engine";
 import { matchZone, zoneById } from "@/lib/ship/zones";
 import { useHud } from "@/lib/store/hud";
+import { nasaContextFor, type NasaRisk } from "@/lib/nasa/hrr";
 import { ENVIRONMENTS, type Environment, type MedicReply } from "@/lib/types";
 
 const GREETING_ID = "greeting";
@@ -19,6 +20,7 @@ type UiMessage = {
   reply?: MedicReply;
   imageUrl?: string;
   screen?: EyeScreen | null;
+  nasa?: NasaRisk[];
 };
 
 function greeting(): UiMessage {
@@ -121,6 +123,10 @@ export function ChatApp() {
       reply = adviseOffline(payload);
     }
 
+    const crewText = nextMessages
+      .filter((message) => message.role === "user")
+      .map((message) => message.content)
+      .join("\n");
     setMessages((current) => [
       ...current,
       {
@@ -128,6 +134,7 @@ export function ChatApp() {
         role: "assistant",
         content: reply.assessmentSummary,
         reply,
+        nasa: nasaContextFor(crewText),
       },
     ]);
     setPending(false);
@@ -226,6 +233,7 @@ export function ChatApp() {
               {message.reply ? (
                 <AdviceCard
                   reply={message.reply}
+                  nasa={message.nasa}
                   onQuickReply={(text) => void submit(text)}
                   disabled={pending || message.id !== lastAdviceId}
                 />
