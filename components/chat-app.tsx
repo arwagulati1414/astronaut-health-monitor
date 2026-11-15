@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AdviceCard } from "@/components/advice-card";
-import { EyeCamera } from "@/components/eye-camera";
+import { EyeCamera, type EyeCapture } from "@/components/eye-camera";
+import { EyeScreenBars } from "@/components/eye-screen-bars";
+import type { EyeScreen } from "@/lib/eye-screen/model";
 import { adviseOffline } from "@/lib/offline-engine";
 import { matchZone, zoneById } from "@/lib/ship/zones";
 import { useHud } from "@/lib/store/hud";
@@ -16,6 +18,7 @@ type UiMessage = {
   content: string;
   reply?: MedicReply;
   imageUrl?: string;
+  screen?: EyeScreen | null;
 };
 
 function greeting(): UiMessage {
@@ -72,7 +75,7 @@ export function ChatApp() {
     if (zone) setActiveZone(zone.id);
   }, [messages, setActiveZone]);
 
-  async function submit(text: string, imageUrl?: string) {
+  async function submit(text: string, imageUrl?: string, screen?: EyeScreen | null) {
     const trimmed = text.trim();
     if (!trimmed || pending) return;
 
@@ -81,6 +84,7 @@ export function ChatApp() {
       role: "user",
       content: trimmed,
       imageUrl,
+      screen,
     };
     const nextMessages = [...messages, userMessage];
     setMessages(nextMessages);
@@ -137,14 +141,10 @@ export function ChatApp() {
     setCameraOpen(false);
   }
 
-  function onCapture(dataUrl: string) {
+  function onCapture(capture: EyeCapture) {
     setCameraOpen(false);
     setEyeHandoffLogged(true);
-    const stamp = new Date().toISOString();
-    void submit(
-      `EYE HANDOFF LOG: still frame captured locally at ${stamp}. Experimental visual log for crew handoff only — not a pupil measurement and not a diagnosis.`,
-      dataUrl,
-    );
+    void submit(capture.note, capture.dataUrl, capture.screen);
   }
 
   return (
@@ -218,6 +218,7 @@ export function ChatApp() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={message.imageUrl} alt="Eye handoff still, not a clinical measurement" />
               ) : null}
+              {message.screen ? <EyeScreenBars screen={message.screen} /> : null}
             </div>
           ) : (
             <div key={message.id} className="bubble medic">

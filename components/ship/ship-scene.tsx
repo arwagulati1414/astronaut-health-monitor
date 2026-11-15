@@ -12,7 +12,7 @@ export function ShipScene() {
   return (
     <Canvas dpr={[1, 1.5]} camera={{ position: [16, 9, 16], fov: 40 }} gl={{ antialias: true }}>
       <color attach="background" args={["#000000"]} />
-      <gridHelper args={[40, 40, "#661111", "#2a0000"]} />
+      <gridHelper args={[40, 40, "#661111", "#2a0808"]} />
       {SHIP_ZONES.map((zone) => (
         <ZoneMesh key={zone.id} zone={zone} />
       ))}
@@ -63,7 +63,7 @@ function ZoneMesh({ zone }: { zone: ShipZone }) {
       >
         <meshStandardMaterial
           ref={material}
-          color={active ? "#ff1a1a" : "#1a0000"}
+          color={critical ? "#ff0033" : active ? "#ff1a1a" : "#140404"}
           emissive={critical ? "#ff0033" : "#ff1a1a"}
           transparent
           opacity={active ? 0.28 : 0.08}
@@ -71,7 +71,7 @@ function ZoneMesh({ zone }: { zone: ShipZone }) {
         />
       </mesh>
       <lineSegments geometry={edges}>
-        <lineBasicMaterial color={active || critical ? "#ff1a1a" : "#661111"} />
+        <lineBasicMaterial color={critical ? "#ff0033" : active ? "#ff1a1a" : "#661111"} />
       </lineSegments>
     </group>
   );

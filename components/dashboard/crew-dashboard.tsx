@@ -84,12 +84,12 @@ export function CrewDashboard() {
       <div className="chart-box">
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={series}>
-            <CartesianGrid stroke="#661111" />
+            <CartesianGrid stroke="#2b7fbf" />
             <XAxis dataKey="t" hide />
-            <YAxis stroke="#cfcfcf" width={36} />
-            <Tooltip contentStyle={{ background: "#000", border: "1px solid #ff1a1a", borderRadius: 0 }} />
-            <Line type="monotone" dataKey="heartRate" stroke="#ff1a1a" dot={false} strokeWidth={2.4} />
-            <Line type="monotone" dataKey="spo2" stroke="#cfcfcf" dot={false} strokeWidth={1.4} />
+            <YAxis stroke="#c3e4f7" width={36} />
+            <Tooltip contentStyle={{ background: "#04101f", border: "1px solid #ff2d95", borderRadius: 0 }} />
+            <Line type="monotone" dataKey="heartRate" stroke="#ff2d95" dot={false} strokeWidth={2.4} />
+            <Line type="monotone" dataKey="spo2" stroke="#c3e4f7" dot={false} strokeWidth={1.4} />
           </LineChart>
         </ResponsiveContainer>
       </div>

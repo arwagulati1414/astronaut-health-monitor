@@ -40,6 +40,7 @@ function promptFor(request: MedicRequest, offline: MedicReply): string {
 Write educational first-aid guidance. You are not a physician on this loop, you do not diagnose, you do not prescribe, and you do not claim to be an official NASA protocol.
 Never give drug doses. Never recommend morphine, fentanyl, ketamine, benzodiazepines, epinephrine, insulin, or any unlabeled injectable.
 Urgency must be at least "${offline.urgency}". If you are unsure, keep the draft urgency.
+If the transcript includes an experimental eye-image screen, treat that label as an unverified similarity guess. Do not diagnose from it, do not raise urgency from the label alone, and do not name a drug or dose because of it.
 Return only JSON with these keys: urgency, assessmentSummary, immediateSteps, vitalsNext, redFlags, environmentNotes, kitGuidance, followUpQuestion, quickReplies, disclaimer, source.
 Set source to "gemini". Keep immediateSteps as short numbered actions (the array order is the numbering). One follow-up question only.
 

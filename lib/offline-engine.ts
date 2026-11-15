@@ -5,7 +5,7 @@ const PLACE =
   /\b(cupola|airlock|node(?:\s*\d)?|lab(?:oratory)?(?:\s+module)?|galley|crew quarters|sleep station|cockpit|flight deck|cabin|middeck|habitat|rover|suitlock|wardroom|destiny|harmony|unity|columbus|kibo|quest)\b/i;
 
 const EYE_LOG_NOTE =
-  "An eye still was captured in this session as a handoff log. It is experimental. It is not a pupil measurement, a vision test, or a diagnosis.";
+  "An eye still was captured in this session. Any image-screen label is an experimental similarity guess. It is not a pupil measurement, a vision test, or a diagnosis.";
 
 export function parseVitals(text: string): Vitals {
   const hr = text.match(/\b(?:hr|heart\s*rate|pulse)\s*[:=]?\s*(\d{2,3})\b/i);
@@ -156,7 +156,7 @@ function eyeReply(
       "Sterile saline or manifested eye-wash for irrigation if you are trained and the checklist agrees.",
       "A rigid eye shield for trauma. Do not press on the eye.",
       "No unlabeled drops, no steroid drops, and no numbing drops unless Mission Control directs a manifested item.",
-      "Camera stills are handoff logs, not instruments.",
+      "Camera stills are handoff logs. An image-screen label is not an instrument and not a diagnosis.",
     ],
     followUpQuestion: follow?.question ?? null,
     quickReplies: follow?.quickReplies,
@@ -540,7 +540,7 @@ function eyeSteps(mechanism: string | null): string[] {
     irrigation,
     "If there was an impact, shield the eye with a rigid shield if one is manifested. Do not press on the globe. Do not pull out an object that is stuck.",
     "Sudden vision loss, severe pain, or chemical exposure is time-critical. Start the safe step you are trained for and call for help. Do not wait out a comms delay.",
-    "If you use the eye camera, the still is only a handoff log for the medic. It does not measure the pupil.",
+    "If you use the eye camera, the still and any image-screen label are only a handoff log for the medic. They do not measure the pupil and they do not diagnose.",
   ];
 }
 
